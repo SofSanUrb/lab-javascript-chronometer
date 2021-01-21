@@ -20,20 +20,25 @@ function printTime() {
 
 function printMinutes() {
   
-  minDec.innerText = chronometer.splitClick()[0]
-  minUni.innerText = chronometer.splitClick()[1]        
+  let min = chronometer.twoDigitsNumber(chronometer.getMinutes())
+  minUni.innerHTML = min[1]
+  minDec.innerHTML = min[0]        
   
 }
 
 function printSeconds() {
-  secDec.innerText = chronometer.splitClick()[3]
-  secUni.innerText = chronometer.splitClick()[4]
+  let sec = chronometer.twoDigitsNumber(chronometer.getSeconds())
+  secDec.innerHTML = sec[0]
+  secUni.innerHTML = sec[1]
   
 }
 
 // ==> BONUS
 function printMilliseconds() {
-  // ... your code goes here
+  let milli = chronometer.twoDigitsNumber(chronometer.milliseconds)
+
+  milUni.innerHTML = milli[1]
+  milDec.innerHTML = milli[0]
 }
 
 function printSplit() {
@@ -42,7 +47,7 @@ function printSplit() {
   item.classList.add("new-item")
   let splitList = document.querySelector("#splits")
 
-  item.innerText = minDec.innerText + minUni.innerText + ":" + secDec.innerText + secUni.innerText 
+  item.innerText = chronometer.splitClick() 
   splitList.appendChild(item)
 }
 
@@ -86,7 +91,7 @@ btnLeft.addEventListener('click', () => {
     setStopBtn()
     setSplitBtn()
 
-    chronometer.startClick(printTime)
+    chronometer.startClick(printTime, printMilliseconds)
   }
   else {
     setStartBtn()
@@ -101,7 +106,10 @@ btnRight.addEventListener('click', () => {
     printSplit()
   }
   else {
-    chronometer.resetClick()
-    clearSplits()
+    chronometer.resetClick();
+    splits.innerHTML = ""
+    clearSplits();
+    printTime()
+    printMilliseconds()
   }
 });
